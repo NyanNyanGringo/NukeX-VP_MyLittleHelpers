@@ -3,7 +3,7 @@ import subprocess
 import platform
 import os
 
-from helpers.osHelpers import correct_path_to_console_path
+from vp_little_helpers.osHelpers import correct_path_to_console_path
 
 
 def open_nuke_in_new_terminal(script_path=None):

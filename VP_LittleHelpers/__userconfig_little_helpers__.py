@@ -1,12 +1,16 @@
 """
 """
+import nuke
+
+
+# # # # # # # # # # # # # # #  OTHER # # # # # # # # # # # # # # #
+
+# description: you can change menu where VP_LittleHelpers will be added.
+# by default, it is menu with name 'Help'
+
+little_helpers_menu = nuke.menu("Nuke").addMenu("Help")
 
 # # # # # # # # # # # # # # #  HELPER: CONFIG OPENER # # # # # # # # # # # # # # #
-
-# description: show/hide config editor
-# supported values: True | False
-
-config_editor_active = True
 
 # description: here you can add name of item and path to folder or file.
 # then you will have ability to open this files from inside Nuke.
