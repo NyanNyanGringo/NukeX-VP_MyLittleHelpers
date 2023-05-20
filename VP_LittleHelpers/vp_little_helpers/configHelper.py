@@ -5,29 +5,26 @@
 то работа будет происходить с дефолтным конфиг-файлом.
 """
 
-import nuke
 import json
 import os
-import tempfile
 
 
-# def get_temp_config_path() -> str:
-#     configs_path = os.environ['HOME'].replace("\\", "/") + "/.nuke/configs"
-#     if not os.path.exists(configs_path):
-#         os.mkdir(configs_path)
-#     return configs_path + "/read_write_coloriser.json"
+def get_temp_config_path():
+    """
+    :return: str
+    """
+    configs_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__))).replace("\\", "/")
+    return configs_path + "/settings_config.json"
 
-def get_temp_config_path() -> str:
-    configs_path = os.path.dirname(os.path.abspath(__file__)).replace("\\", "/")
-    return configs_path + "/read_write_coloriser.json"
 
-def write_configs(keys, confs, conf_file_path=get_temp_config_path()) -> True:
+def write_configs(keys, confs, conf_file_path=get_temp_config_path()):
     """
     Записать значения в конфиг-файл в формате ключ-значение.
     :
     :param keys: list | dict of str
     :param confs: list | dict of str
     :param conf_file_path: str
+    :return: True
     """
     config_data = dict()
 
@@ -51,13 +48,14 @@ def write_configs(keys, confs, conf_file_path=get_temp_config_path()) -> True:
     return True
 
 
-def write_config(key, conf, conf_file_path=get_temp_config_path()) -> True:
+def write_config(key, conf, conf_file_path=get_temp_config_path()):
     """
     Записать значение в конфиг-файл в формате ключ-значение.
     :
     :param key: str
     :param conf: any
     :param conf_file_path: str
+    :return: True
     """
     config_data = dict()
 
@@ -75,11 +73,12 @@ def write_config(key, conf, conf_file_path=get_temp_config_path()) -> True:
     return True
 
 
-def read_config(conf_file_path=get_temp_config_path()) -> dict:
+def read_config(conf_file_path=get_temp_config_path()):
     """
     Прочитать весь конфиг файл
     :
     :param conf_file_path: str
+    :return: dict
     """
 
     if not os.path.isfile(conf_file_path):
@@ -92,12 +91,13 @@ def read_config(conf_file_path=get_temp_config_path()) -> dict:
     return config_data_input
 
 
-def read_config_key(key, conf_file_path=get_temp_config_path()) -> any:
+def read_config_key(key, conf_file_path=get_temp_config_path()):
     """
     Прочитать значение по ключу из конфига
     :
     :param key: any
     :param conf_file_path: str
+    :return: any
     """
 
     if not check_key(key, conf_file_path):
@@ -110,12 +110,13 @@ def read_config_key(key, conf_file_path=get_temp_config_path()) -> any:
     return config_data_input[key]
 
 
-def check_key(key, conf_file_path=get_temp_config_path()) -> bool:
+def check_key(key, conf_file_path=get_temp_config_path()):
     """
     Проверить - существует ли конфинг-файл и есть ли у него ключ
     :
     :param key: any
     :param conf_file_path: str
+    :return: bool
     """
 
     if not os.path.isfile(conf_file_path):
@@ -131,12 +132,13 @@ def check_key(key, conf_file_path=get_temp_config_path()) -> bool:
         return False
 
 
-def delete_key(key, conf_file_path=get_temp_config_path()) -> bool:
+def delete_key(key, conf_file_path=get_temp_config_path()):
     """
     Удалить ключ и его значение из конфиг-файла
     :
     :param key: any
     :param conf_file_path: str
+    :return: bool
     """
 
     if check_key(key, conf_file_path):

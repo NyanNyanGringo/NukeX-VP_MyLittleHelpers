@@ -1,16 +1,11 @@
 import nuke
 
-
-def set_smart_autosave():
-    nuke.message("1")
+from vp_little_helpers import qtHelper, nukeHelpers
 
 
-def remove_smart_autosave():
-    nuke.message("0")
-
-
-"""
-[
+def activate_smart_autosave():
+    nuke.toNode("preferences")["AutoSaveName"].setValue(
+"""[
 set temp_dir "[getenv NUKE_TEMP_DIR]/autosaves/";
 
 set root_basename [file dirname [value root.name]];
@@ -28,5 +23,17 @@ if {[value root.name] == ""} {
 file mkdir $main_dir;
 
 return $main_dir/$data.autosave
-]
-"""
+]""")
+    nukeHelpers.save_preferences_to_file()
+
+
+def deactivate_smart_autosave():
+    nuke.toNode("preferences")["AutoSaveName"].setValue("[firstof [value root.name] [getenv NUKE_TEMP_DIR]/].autosave")
+    nukeHelpers.save_preferences_to_file()
+
+
+def set_smart_autosave():
+    if qtHelper.check_action_is_checked(config_key="use_smart_autosave"):
+        activate_smart_autosave()
+    else:
+        deactivate_smart_autosave()

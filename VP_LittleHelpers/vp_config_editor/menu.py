@@ -10,8 +10,7 @@ import vp_config_editor.config_editor as config_editor
 nuke_plugin_path = (os.environ['HOME'] + '/.nuke').replace("\\", "/")
 
 # menu
-menu_help = nuke.menu("Nuke").addMenu(userconfig.little_helpers_menu)
-menu_open = menu_help.addMenu("Config Opener")
+menu_open = userconfig.little_helpers_menu.addMenu("Config Editor")
 
 # add open .nuke dir command
 menu_open.addCommand(".nuke", "os.startfile('" + nuke_plugin_path + "')")

@@ -1,2 +1,12 @@
-# import vp_smart_autosave.menu
+import __userconfig_little_helpers__ as userconfig
+userconfig.little_helpers_menu.addSeparator()
+
+import vp_smart_autosave.menu
+import vp_read_write_coloriser.menu
+import vp_compare_versions_before_render.menu
+import vp_delete_temp_files_after_render.menu
+import vp_disconnect_viewers_inputs_after_script_load.menu
+import vp_default_viewer_state_is_input.menu
 import vp_config_editor.menu
+
+userconfig.little_helpers_menu.addSeparator()
