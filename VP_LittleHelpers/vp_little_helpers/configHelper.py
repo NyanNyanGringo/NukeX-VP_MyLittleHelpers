@@ -1,8 +1,8 @@
 """
-Библиотека для работы с конфиг-файлами формата .json
+Library for working with .json configuration files.
 
-Если не указывать значение conf_file_path в функциях,
-то работа будет происходить с дефолтным конфиг-файлом.
+If the value conf_file_path is not specified in the functions,
+the operations will be performed on the default configuration file.
 """
 
 import json
@@ -14,7 +14,7 @@ def get_temp_config_path():
     :return: str
     """
     configs_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__))).replace("\\", "/")
-    return configs_path + "/settings_config.json"
+    return configs_path + "/config.json"
 
 
 def write_configs(keys, confs, conf_file_path=get_temp_config_path()):

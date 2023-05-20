@@ -4,9 +4,7 @@ from PySide2.QtWidgets import QAction
 
 import vp_compare_versions_before_render.compare_versions_before_render as compare_versions_before_render
 
-from vp_little_helpers import configHelper
-
-import __userconfig_little_helpers__ as userconfig
+from vp_little_helpers import configHelper, qtHelper
 
 
 # work with config
@@ -24,15 +22,15 @@ action = QAction("Compare Versions Before Render?")
 action.setCheckable(True)
 
 # add action to menu
-userconfig.little_helpers_menu.addMenu("Render").addAction(action)
+qtHelper.create_and_get_helper_menu().addMenu("Render").addAction(action)
 
 # set triggers for action: save config + start read_write_coloriser
 action.triggered.connect(lambda: write_config_settings(action))
-action.triggered.connect(lambda: compare_versions_before_render.set_compare_versions_before_render())
+action.triggered.connect(lambda: compare_versions_before_render.start())
 
 # when initialize Nuke
 load_config_settings(action)
-compare_versions_before_render.set_compare_versions_before_render()
+compare_versions_before_render.start()
 
 # add callbacks
-nuke.addOnScriptLoad(compare_versions_before_render.set_compare_versions_before_render)
+nuke.addOnScriptLoad(compare_versions_before_render.start)

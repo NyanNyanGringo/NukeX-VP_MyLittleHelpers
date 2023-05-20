@@ -26,3 +26,10 @@ def correct_path_to_console_path(input_path: str) -> str:
         path_corrected = path_corrected[:-1]
 
     return path_corrected
+
+
+def check_file_path_is_sequence(file):
+    if not (file.endswith(".mov") or file.endswith(".mp4")):
+        return True
+    return False
+

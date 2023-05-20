@@ -1,5 +1,6 @@
-import __userconfig_little_helpers__ as userconfig
-userconfig.little_helpers_menu.addSeparator()
+from vp_little_helpers import qtHelper, check_userconfig_valid
+
+qtHelper.create_and_get_helper_menu().addSeparator()
 
 import vp_smart_autosave.menu
 import vp_read_write_coloriser.menu
@@ -9,4 +10,4 @@ import vp_disconnect_viewers_inputs_after_script_load.menu
 import vp_default_viewer_state_is_input.menu
 import vp_config_editor.menu
 
-userconfig.little_helpers_menu.addSeparator()
+qtHelper.create_and_get_helper_menu().addSeparator()

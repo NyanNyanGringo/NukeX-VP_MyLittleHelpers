@@ -10,7 +10,7 @@ def disconnect_viewer_inputs():
                 node.setInput(_input, None)
 
 
-def set_disconnect_viewer_inputs():
+def start():
     if qtHelper.check_action_is_checked(config_key="use_disconnect_viewer_inputs"):
         nuke.addOnScriptLoad(disconnect_viewer_inputs)
     else:

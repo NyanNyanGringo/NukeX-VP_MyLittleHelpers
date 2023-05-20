@@ -32,7 +32,7 @@ def deactivate_smart_autosave():
     nukeHelpers.save_preferences_to_file()
 
 
-def set_smart_autosave():
+def start():
     if qtHelper.check_action_is_checked(config_key="use_smart_autosave"):
         activate_smart_autosave()
     else:

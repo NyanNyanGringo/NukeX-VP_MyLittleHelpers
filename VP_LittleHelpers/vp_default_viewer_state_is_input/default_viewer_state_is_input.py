@@ -27,23 +27,23 @@ def find_framerange(qtObject):
             pass
 
 
-def change_viewer_to_input_or_global(viewer_node, close_viewer=True, state="Input"):
+def change_viewer_to_input_or_global(viewer_node, state):
+    """
+    :
+    :param viewer_node: Nuke Node with Class Viewer
+    :param state: str, Input | Global
+    :return: None
+    """
     viewer = find_viewer(viewer_node)
     fr = find_framerange(viewer)
     input_action = [act for act in fr.menu().actions() if act.text() == state][0]
     input_action.trigger()
 
-    # if "1" in viewer_node.name():
-    #     return
-
-    # if close_viewer:
-    #     viewer.close()
-
 
 def change_viewerS_to_input():
     for node in nuke.allNodes():
         if node.Class() == "Viewer":
-            change_viewer_to_input_or_global(node)
+            change_viewer_to_input_or_global(node, state="Input")
 
 
 def change_viewerS_to_global():
@@ -52,31 +52,15 @@ def change_viewerS_to_global():
             change_viewer_to_input_or_global(node, state="Global")
 
 
-def change_viewer_to_input_when_user_create():
-    change_viewer_to_input_or_global(nuke.thisNode(), close_viewer=False)
-
-
-def change_viewer_to_input_when_script_load():
-    nuke.removeOnCreate(change_viewer_to_input_when_user_create, nodeClass="Viewer")
-    change_viewerS_to_input()
-    nuke.addOnCreate(change_viewer_to_input_when_user_create, nodeClass="Viewer")
-
-
 def change_viewer_to_input_when_widget_opens():
     if nuke.thisKnob().name() == "renderer":
-        change_viewer_to_input_or_global(nuke.thisNode(), close_viewer=False)
+        change_viewer_to_input_or_global(nuke.thisNode(), state="Input")
 
 
-def start(called_from_user=False):
-    # if qtHelper.check_action_is_checked(config_key="use_default_viewer_state_as_input") and called_from_user:
-        # change_viewer_to_input_when_script_load()
+def start():
     if qtHelper.check_action_is_checked(config_key="use_default_viewer_state_as_input"):
-        # nuke.message("Nuke Started!")
-        # nuke.addOnScriptLoad(change_viewer_to_input_when_script_load)
         change_viewerS_to_input()
         nuke.addKnobChanged(change_viewer_to_input_when_widget_opens, nodeClass="Viewer")
     else:
         change_viewerS_to_global()
         nuke.removeKnobChanged(change_viewer_to_input_when_widget_opens, nodeClass="Viewer")
-        # nuke.removeOnScriptLoad(change_viewer_to_input_when_script_load)
-        # nuke.removeOnCreate(change_viewer_to_input_when_user_create, nodeClass="Viewer")

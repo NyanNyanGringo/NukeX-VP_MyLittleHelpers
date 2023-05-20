@@ -14,8 +14,8 @@ def open_nuke_in_new_terminal(script_path=None):
     """
 
     operatingSystem = platform.system()
-    nuke_path = ((nuke.rawArgs)[0])
-    start_mode = (nuke.rawArgs)[1]
+    nuke_path = nuke.rawArgs[0]
+    start_mode = nuke.rawArgs[1]
 
     command = ""
 
@@ -36,8 +36,6 @@ def open_nuke_in_new_terminal(script_path=None):
 
     # add command to close cmd after close nuke
     command += " " + "& exit"
-
-    # nuke.message(command)
     
     if operatingSystem == "Windows":
         subprocess.Popen(['start', 'cmd', '/k', command], shell=True)

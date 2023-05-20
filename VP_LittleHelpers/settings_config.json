@@ -1,8 +1,0 @@
-{
-  "use_coloriser": true,
-  "use_compare_versions_before_render": true,
-  "use_default_viewer_state_as_input": true,
-  "use_delete_temp_files_after_render": true,
-  "use_disconnect_viewer_inputs": true,
-  "use_smart_autosave": true
-}

@@ -4,9 +4,7 @@ from PySide2.QtWidgets import QAction
 
 import vp_default_viewer_state_is_input.default_viewer_state_is_input as default_viewer_state_is_input
 
-from vp_little_helpers import configHelper
-
-import __userconfig_little_helpers__ as userconfig
+from vp_little_helpers import configHelper, qtHelper
 
 
 # work with config
@@ -24,16 +22,12 @@ action = QAction("Set Default Viewer State as Input?")
 action.setCheckable(True)
 
 # add action to menu
-userconfig.little_helpers_menu.addMenu("Viewer").addAction(action)
+qtHelper.create_and_get_helper_menu().addMenu("Viewer").addAction(action)
 
 # set triggers for action: save config + start read_write_coloriser
 action.triggered.connect(lambda: write_config_settings(action))
-action.triggered.connect(lambda: default_viewer_state_is_input.start(called_from_user=True))
+action.triggered.connect(lambda: default_viewer_state_is_input.start())
 
 # when initialize Nuke
 load_config_settings(action)
-default_viewer_state_is_input.start(called_from_user=False)
-
-# add callbacks
-# nuke.addOnScriptLoad(default_viewer_state_is_input.start)
-# nuke.addKnobChanged(lambda: print(nuke.thisKnob().name()), nodeClass="Viewer")
+default_viewer_state_is_input.start()

@@ -2,13 +2,7 @@ import nuke
 import os
 import re
 
-from vp_little_helpers import qtHelper
-
-
-def check_knob_file_is_sequence(file):
-    if not (file.endswith(".mov") or file.endswith(".mp4")):
-        return True
-    return False
+from vp_little_helpers import qtHelper, osHelpers
 
 
 def delete_temp_files_after_render():
@@ -17,7 +11,7 @@ def delete_temp_files_after_render():
 
     temp_files = []
 
-    if check_knob_file_is_sequence(file):
+    if osHelpers.check_file_path_is_sequence(file):
         sequence_path = os.path.dirname(file)
 
         if not os.path.exists(sequence_path):
@@ -33,7 +27,7 @@ def delete_temp_files_after_render():
             nuke.message("\n".join(temp_files) + "\n\nWas deleted, My Lord ^_^")
 
 
-def set_delete_temp_files_after_render():
+def start():
     if qtHelper.check_action_is_checked(config_key="use_delete_temp_files_after_render"):
         nuke.addAfterRender(delete_temp_files_after_render, nodeClass='Write')
     else:

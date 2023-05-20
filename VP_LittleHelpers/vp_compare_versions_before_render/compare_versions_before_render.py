@@ -28,7 +28,7 @@ def check_knob_file_version_matches_script_version():
                     raise
 
 
-def set_compare_versions_before_render():
+def start():
     if qtHelper.check_action_is_checked(config_key="use_compare_versions_before_render"):
         nuke.addBeforeRender(check_knob_file_version_matches_script_version, nodeClass='Write')
     else:
