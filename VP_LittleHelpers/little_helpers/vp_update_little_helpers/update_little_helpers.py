@@ -60,16 +60,23 @@ def start(action, start_when_initialize=False):
             updateHelper.open_program_on_github()
         return
 
-    if nuke.ask(f"My Lord,\n\nVP_LittleHelpers_{last_version} available!\n\nUpdate?"):
-        zip_path = str()
-        try:
-            zip_path = updateHelper.download_repository_by_url(download_url)
-        except:
-            if ask_error_message("can't download last release .zip file from GitHub."):
-                updateHelper.open_program_on_github()
-            return
+    if updateHelper.check_new_version_available(current_version, last_version):
+        if nuke.ask(f"My Lord,\n\nVP_LittleHelpers_{last_version} available!\n\nUpdate?"):
+            zip_path = str()
+            try:
+                zip_path = updateHelper.download_repository_by_url(download_url)
+            except:
+                if ask_error_message("can't download last release .zip file from GitHub."):
+                    updateHelper.open_program_on_github()
+                return
 
-        new_program_path = updateHelper.unzip(zip_path, delete_zip=True)
-        program_path = updateHelper.get_program_path()
+            new_program_path = updateHelper.unzip(zip_path, delete_zip=True)
+            program_path = updateHelper.get_program_path()
 
-        updateHelper.update_program_files(program_path, new_program_path)
+            updateHelper.update_program_files(program_path, new_program_path)
+
+
+
+    else:
+        nuke.message("My Lord,\n\nYou have the latest version of VP_LittleHelpers ^_^")
+        return

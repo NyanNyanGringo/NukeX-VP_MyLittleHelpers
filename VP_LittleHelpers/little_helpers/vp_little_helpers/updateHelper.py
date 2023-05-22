@@ -17,7 +17,7 @@ def get_nuke_python_path():
 
 
 def get_program_path():
-    return os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    return os.path.dirname(os.path.dirname(os.path.abspath(__file__))).replace("\\", "/")
 
 
 def get_program_version():
@@ -27,14 +27,14 @@ def get_program_version():
 
 
 def get_repository_name():
-    # TODO: change repo name!
-    return "NukeX-VP_HotkeyManager"
+    return "NukeX-VP_LittleHelpers"
+    # return "NukeX-VP_HotkeyManager"
 
 
 def get_data_from_last_repo_release(data: str, repository: str = get_repository_name()):
     """
     :param data: "zipball_url" -> get URL to download last release (str: "https://api.github.com/...")
-                 "tag_name" -> get last release version (str: "v0.0.0")
+                 "tag_name" -> get last release version (str: "v0.2.0")
                  "body" -> get info about updates - what was done in this release (str)
     :param repository: repository to search release
     """
@@ -63,14 +63,16 @@ def unzip(zip_file_path: str, delete_zip: int = False):
     with zipfile.ZipFile(zip_file_path, 'r') as zip_ref:
         zip_ref.extractall(os.path.dirname(zip_file_path))
 
+    with zipfile.ZipFile(zip_file_path, 'r') as zip_ref:
+        files_inside = zip_ref.namelist()
+
     if delete_zip:
         os.remove(zip_file_path)
 
-    return zip_file_path.replace(".zip", "")
+    return os.path.join(os.path.dirname(zip_file_path), files_inside[0]).replace("\\", "/")
 
 
 def download_repository_by_url(url) -> str:
-    # TODO: change download folder
     temppath = tempfile.gettempdir()
     repository_user = url.replace("\\", "/").split("/")[-4]
     repository_name = url.replace("\\", "/").split("/")[-3]
@@ -101,17 +103,17 @@ def download_repository_by_url(url) -> str:
     raise Exception(f"Something went wrong while downloading file by {url}!")
 
 
-def check_new_version_available(current_version, last_version) -> tuple:
+def check_new_version_available(current_version, last_version) -> bool:
     current_parts = current_version[1:].split('.')
     last_parts = last_version[1:].split('.')
 
     for current, last in zip(current_parts, last_parts):
         if int(current) < int(last):
-            return True, current_version, last_version
+            return True
         elif int(current) > int(last):
-            return False, None, None
+            return False
 
-    return False, None, None  # Both versions are equal
+    return False  # Both versions are equal
 
 
 def open_program_on_github(repository: str = get_repository_name()):
@@ -121,6 +123,14 @@ def open_program_on_github(repository: str = get_repository_name()):
 def update_program_files(old_program_path, new_program_path):
     print(old_program_path)
     print(new_program_path)
+    print()
+    new_program_path = os.path.join(new_program_path, "VP_LittleHelpers", "little_helpers").replace("\\", "/")
+    print(old_program_path)
+    print(new_program_path)
+    print()
+
+    shutil.move(new_program_path, old_program_path+"NEW")
+
 
 # https://api.github.com/repos/NyanNyanGringo/NukeX-VP_HotkeyManager/zipball/v1.4.0
 # NyanNyanGringo-NukeX-VP_HotkeyManager-v1.4.0-0-gc4f1c46

@@ -2,11 +2,11 @@
 
 [YouTube](https://www.youtube.com/)  
 [Nukepedia](http://www.nukepedia.com/)  
-[LinkedIn](https://www.linkedin.com/in/vladislav-parfentev-7b89b9233/)  
+[LinkedIn](https://www.linkedin.com/in/vladislav-parfentev-7b89b9233/)
 
-Set of helpers, plugins, and tools for NukeX that will help simplify the life of a compositing artist!
+## Almost invisible helpers for compositing artist!
 
-# Helpers
+# how to use:
 
 ### smart autosave:
 - adds a TCL command to Preferences -> Autosave that creates autosaves of the project script in a folder next to the script.
@@ -30,7 +30,7 @@ Set of helpers, plugins, and tools for NukeX that will help simplify the life of
 - helps to open any config files or folders from inside Nuke (relatively to .nuke folder).
 - have functionality to restart Nuke.
 
-# Install
+# how to install
 
 ### first install:
 1) Move "VP_LittleHelpers" folder to "/.nuke/VP_LittleHelpers"
@@ -38,14 +38,13 @@ Set of helpers, plugins, and tools for NukeX that will help simplify the life of
 > import nuke  
 > nuke.pluginAddPath("./VP_LittleHelpers")
 
-### how to update:
-1) Copy config files* from "/.nuke/VP_LittleHelpers"
-2) Move !new! "VP_LittleHelpers" folder to "/.nuke/VP_LittleHelpers"
-3) Paste config files* to "/.nuke/VP_LittleHelpers"
+### update manually**:
+1) Delete folder "little_helpers" ("/.nuke/VP_LittleHelpers/little_helpers")
+2) Move !new! "little_helpers" folder to "/.nuke/VP_LittleHelpers/little_helpers"
 
-*USERCONFIG.ini and config.json
+**VP_LittleHelpers require auto-update from inside Nuke ^_^
 
-# USERCONFIG.ini
+# how to set up:
 - Edit USERCONFIG.ini file to change VP_LittleHelpers settings
 
 # P.S.
