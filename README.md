@@ -6,7 +6,7 @@
 
 ## Almost invisible helpers for compositing artist!
 
-# <span style="color: #86A8E7;">how to use:
+# <span style="color: #86A8E7;"> how to use:
 
 ### <span style="color: #9CCB9A;">smart autosave:
 - adds a TCL command to Preferences -> Autosave that creates autosaves of the project script in a folder next to the script.
