@@ -117,7 +117,7 @@ def open_application_github_in_web():
 
 
 def ask_error_message(reason: str):
-    message = nuke.ask(f"""
+    message = f"""
 My Lord,
 I can't update VP_LittleHelpers - {reason}
 
@@ -126,7 +126,7 @@ Be sure:
 2. Nuke Python and Terminal not blocked by FireWall.
 
 Do you want to update manually?
-""")
+"""
     if nuke.ask(message):
         open_application_github_in_web()
 
