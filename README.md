@@ -38,7 +38,7 @@
 > import nuke  
 > nuke.pluginAddPath("./VP_LittleHelpers")  
 
-*Do not rename it (else auto-update won't work correct)!
+*Do not rename "VP_LittleHelpers" (else auto-update won't work correct)!
 
 ### update manually**:
 1) Delete folder "little_helpers" ("/.nuke/VP_LittleHelpers/little_helpers")

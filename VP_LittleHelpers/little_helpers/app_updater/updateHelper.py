@@ -202,7 +202,7 @@ Restart Nuke?
 def get_data_from_last_repository_release(data: str):
     """
     :param data: "zipball_url" -> get URL to download last release (str: "https://api.github.com/...")
-                 "tag_name" -> get last release version (str: "v0.2.0")
+                 "tag_name" -> get last release version (str: v0.0.0)
                  "body" -> get info about updates - what was done in this release (str)
     :param repository: repository to search release
     """
