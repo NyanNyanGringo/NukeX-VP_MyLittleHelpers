@@ -89,7 +89,7 @@ def get_userconfig_structure() -> dict:
         },
         "CONFIG EDITOR": {
             "Init.py": ["./init.py", False, ""],
-            "Menu.py": ["./menu.py", False, "path is specified relative to the .nuke directory"]
+            "Menu.py": ["./submenu.py", False, "path is specified relative to the .nuke directory"]
         }
     }
 
