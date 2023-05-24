@@ -123,7 +123,7 @@ I can't update VP_LittleHelpers - {reason}
 
 Be sure:
 1. You are connected to the internet;
-2. Nuke Python and Terminal not blocked by FireWall.
+2. Nuke Python and Terminal not blocked by FireWall;
 
 Do you want to update manually?
 """
@@ -212,6 +212,10 @@ def get_data_from_last_repository_release(data: str):
     python_code = f'''
 import urllib.request
 import json
+import ssl
+
+# Add SSH certificate permission (without this doesn't work on macOS)
+ssl._create_default_https_context = ssl._create_unverified_context
 
 url = "{url}"
 response = urllib.request.urlopen(url)
@@ -373,7 +377,6 @@ def start_updating_application_when_trigger():
                 shutil.move(new_program_path, old_program_path)
             else:
                 try:
-                    # TODO: test shutil.rmtree!
                     if os.path.exists(old_program_path):
                         shutil.rmtree(old_program_path)
                     shutil.move(new_program_path, old_program_path)

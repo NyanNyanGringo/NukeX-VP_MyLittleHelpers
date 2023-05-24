@@ -53,3 +53,15 @@ def open_in_finder(path) -> bool:
         subprocess.call(["nautilus", "--select", path])
 
     return True
+
+
+def startfile(file_path):
+    """
+    Open file or folder with default app.
+    """
+    operatingSystem = platform.system()
+
+    if operatingSystem == "Windows":
+        os.startfile(file_path)
+    else:
+        os.system("open " + file_path)
