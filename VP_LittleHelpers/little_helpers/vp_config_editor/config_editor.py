@@ -11,7 +11,7 @@ def open_nuke_in_new_terminal(script_path=None):
     :param script_path: string, path to script for open
     :return: None
     """
-
+    # TODO: macOS and Linux support
     operatingSystem = platform.system()
     nuke_path = nuke.rawArgs[0]
     start_mode = nuke.rawArgs[1]
@@ -44,6 +44,11 @@ def restart_any_nuke():
     Restart NukeX or NukeStudio (support script reopening)
     :return: None
     """
+    operatingSystem = platform.system()
+    if not operatingSystem == "Windows":
+        nuke.message("My Lord, I'm sorry...\n\nRestart Nuke for your OS not supported yet :(")
+        return
+
     script_path = nuke.Root().name()
     
     if script_path == "Root" and nuke.ask("My Lord, script isn't saved!\n\nRestart anyway?"):

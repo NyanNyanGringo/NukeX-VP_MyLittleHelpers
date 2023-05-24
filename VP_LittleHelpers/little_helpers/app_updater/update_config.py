@@ -24,6 +24,9 @@ How to build app to make app_updater work:
     b. name format: RepositoryName_v0.0.0 (example: NukeX-VP_LittleHelpers_v0.0.0)
     c. comments: use # in every line
     d. set as a pre-release - do not use!
+
+
+# TODO: macOS and Linux support
 """
 
 

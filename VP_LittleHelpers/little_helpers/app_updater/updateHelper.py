@@ -296,6 +296,12 @@ def start_updating_application_when_initiazile(action):
 
 
 def start_updating_application_when_trigger():
+    operatingSystem = platform.system()
+    if not operatingSystem == "Windows":
+        if nuke.ask("My Lord, I'm sorry...\n\nAuto-updade for your OS not supported yet :(\n\nUpdate manually?"):
+            open_application_github_in_web()
+        return
+
     # get application version
     current_version = get_application_version()
     if not current_version:
@@ -345,7 +351,6 @@ def start_updating_application_when_trigger():
     if check_new_version_available(current_version, last_version):
         # ask to download
         if nuke.ask(f"My Lord,\n\n{get_plugin_path_name()}_{last_version} available!\n\nUpdate?"):
-
             # download and get zip of last release
             zip_path = str()
             if update_config.use_test_mode:
