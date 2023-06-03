@@ -1,19 +1,18 @@
 import nuke
 import subprocess
-import platform
 
 
-def run_cmd_command(command):
-    # TODO: return result
-    operatingSystem = platform.system()
-
-    if operatingSystem == "Windows":
+def run_terminal_command(command):
+    if nuke.env["WIN32"]:
+        if " & exit" not in command:
+            command += " & exit"
         subprocess.Popen(['start', 'cmd', '/k', command], shell=True)
 
-    elif operatingSystem == "Darwin":
-        if nuke.ask("Nuke Restart wasn't tested for MacOs. Continue?"):
-            subprocess.Popen(['open', '-a', 'Terminal', '-e', command])
+    elif nuke.env["MACOS"]:
+        # applescript_code += f"""&& osascript -e 'tell application "Terminal" to close first window'""" it is for save
+        applescript_code = f'osascript -e \'tell application "Terminal" to do script "{command}"\''
+        subprocess.Popen(applescript_code, shell=True)
 
     else:
-        if nuke.ask("Nuke Restart wasn't tested for Linux. Continue?"):
+        if nuke.ask("Nuke Run Terminal wasn't tested for Linux. Continue?"):
             subprocess.Popen(['x-terminal-emulator', '-e', command])

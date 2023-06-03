@@ -1,5 +1,4 @@
 import nuke
-import platform
 import os
 
 from little_helpers.vp_little_helpers import osHelpers, cmdHelper
@@ -11,15 +10,13 @@ def open_nuke_in_new_terminal(script_path=None):
     :param script_path: string, path to script for open
     :return: None
     """
-    # TODO: macOS and Linux support
-    operatingSystem = platform.system()
     nuke_path = nuke.rawArgs[0]
     start_mode = nuke.rawArgs[1]
 
     command = ""
 
     # change disk if Windows
-    if script_path and operatingSystem == "Windows":
+    if script_path and nuke.env["WIN32"]:
         command += script_path.replace("\\", "/").split("/")[0] + " & "
 
     # change dir to script dir
@@ -33,10 +30,7 @@ def open_nuke_in_new_terminal(script_path=None):
     if script_path:
         command += " " + os.path.basename(script_path)
 
-    # add command to close cmd after close nuke
-    command += " " + "& exit"
-
-    cmdHelper.run_cmd_command(command)
+    cmdHelper.run_terminal_command(command)
 
 
 def restart_any_nuke():
@@ -44,8 +38,7 @@ def restart_any_nuke():
     Restart NukeX or NukeStudio (support script reopening)
     :return: None
     """
-    operatingSystem = platform.system()
-    if not operatingSystem == "Windows":
+    if nuke.env["LINUX"]:
         nuke.message("My Lord, I'm sorry...\n\nRestart Nuke for your OS not supported yet :(")
         return
 

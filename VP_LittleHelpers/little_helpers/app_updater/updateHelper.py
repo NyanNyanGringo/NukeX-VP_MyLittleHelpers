@@ -4,7 +4,6 @@ import webbrowser
 import tempfile
 import time
 import zipfile
-import platform
 
 from PySide2.QtWidgets import QAction
 
@@ -34,7 +33,10 @@ def get_plugin_path_name():
 
 
 def get_nuke_python_path():
-    return os.path.join(os.path.dirname(nuke.rawArgs[0]), "python.exe").replace("\\", "/")
+    if nuke.env["WIN32"]:
+        return os.path.join(os.path.dirname(nuke.rawArgs[0]), "python.exe").replace("\\", "/")
+    elif nuke.env["MACOS"]:
+        return os.path.join(os.path.dirname(nuke.rawArgs[0]), "python").replace("\\", "/")
 
 
 def get_github_username():
@@ -69,6 +71,7 @@ def check_new_version_available(current_version, last_version) -> bool:
 
 # HELP METHODS
 
+
 def unzip(zip_file_path: str, delete_zip: int = False) -> str:
     with zipfile.ZipFile(zip_file_path, 'r') as zip_ref:
         zip_ref.extractall(os.path.dirname(zip_file_path))
@@ -96,19 +99,19 @@ def correct_path_to_console_path(input_path: str) -> str:
     return path_corrected
 
 
-def run_cmd_command(command):
-    # TODO: return result
-    operatingSystem = platform.system()
-
-    if operatingSystem == "Windows":
+def run_terminal_command(command) -> None:
+    if nuke.env["WIN32"]:
+        if " & exit" not in command:
+            command += " & exit"
         subprocess.Popen(['start', 'cmd', '/k', command], shell=True)
 
-    elif operatingSystem == "Darwin":
-        if nuke.ask("Nuke Restart wasn't tested for MacOs. Continue?"):
-            subprocess.Popen(['open', '-a', 'Terminal', '-e', command])
+    elif nuke.env["MACOS"]:
+        # applescript_code += f"""&& osascript -e 'tell application "Terminal" to close first window'""" it is for save
+        applescript_code = f'osascript -e \'tell application "Terminal" to do script "{command}"\''
+        subprocess.Popen(applescript_code, shell=True)
 
     else:
-        if nuke.ask("Nuke Restart wasn't tested for Linux. Continue?"):
+        if nuke.ask("Nuke Run Terminal wasn't tested for Linux. Continue?"):
             subprocess.Popen(['x-terminal-emulator', '-e', command])
 
 
@@ -140,15 +143,13 @@ def open_nuke_in_new_terminal(script_path=None):
     :param script_path: string, path to script for open
     :return: None
     """
-
-    operatingSystem = platform.system()
     nuke_path = nuke.rawArgs[0]
     start_mode = nuke.rawArgs[1]
 
     command = ""
 
     # change disk if Windows
-    if script_path and operatingSystem == "Windows":
+    if script_path and nuke.env["WIN32"]:
         command += script_path.replace("\\", "/").split("/")[0] + " & "
 
     # change dir to script dir
@@ -162,10 +163,7 @@ def open_nuke_in_new_terminal(script_path=None):
     if script_path:
         command += " " + os.path.basename(script_path)
 
-    # add command to close cmd after close nuke
-    command += " " + "& exit"
-
-    run_cmd_command(command)
+    run_terminal_command(command)
 
 
 def restart_any_nuke(new_version: str, release_update_info: str = ""):
@@ -206,7 +204,6 @@ def get_data_from_last_repository_release(data: str):
                  "body" -> get info about updates - what was done in this release (str)
     :param repository: repository to search release
     """
-    # TODO: Make with run_cmd_command()
     url = f"https://api.github.com/repos/{get_github_username()}/{get_github_repository_name()}/releases/latest"
     python_path = get_nuke_python_path()
     python_code = f'''
@@ -255,8 +252,13 @@ def download_repository_by_url(url) -> str:
                 os.remove(file_path)
 
     # download
-    command = f"cd {correct_path_to_console_path(temppath)} & curl -LJO -k {url} & exit"
-    run_cmd_command(command)
+    # cd to change dir | curl to download
+    download_command = f"cd {correct_path_to_console_path(temppath)} && curl -LJO -k {url}"
+
+    if update_config.use_test_mode:
+        print(f"Try to run command: {download_command}")
+
+    run_terminal_command(download_command)
 
     # find files after download
     for x in range(22):
@@ -296,8 +298,7 @@ def start_updating_application_when_initiazile(action):
 
 
 def start_updating_application_when_trigger():
-    operatingSystem = platform.system()
-    if not operatingSystem == "Windows":
+    if nuke.env["LINUX"] and not update_config.use_test_mode:
         if nuke.ask("My Lord, I'm sorry...\n\nAuto-updade for your OS not supported yet :(\n\nUpdate manually?"):
             open_application_github_in_web()
         return
@@ -351,6 +352,7 @@ def start_updating_application_when_trigger():
     if check_new_version_available(current_version, last_version):
         # ask to download
         if nuke.ask(f"My Lord,\n\n{get_plugin_path_name()}_{last_version} available!\n\nUpdate?"):
+
             # download and get zip of last release
             zip_path = str()
             if update_config.use_test_mode:

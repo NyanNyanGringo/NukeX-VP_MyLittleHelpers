@@ -26,7 +26,7 @@ How to build app to make app_updater work:
     d. set as a pre-release - do not use!
 
 
-# TODO: macOS and Linux support
+# TODO: Linux support
 """
 
 

@@ -1,6 +1,6 @@
 import os
-import platform
 import subprocess
+import nuke
 
 
 def add_arrow_before_spaces(string):
@@ -40,15 +40,13 @@ def open_in_finder(path) -> bool:
     if not os.path.exists(path):
         return False
 
-    operatingSystem = platform.system()
-
-    if operatingSystem == "Windows":
+    if nuke.env["WIN32"]:
         path = path.replace("/", "\\")
         subprocess.call(("explorer", "/select,", path))
-    elif operatingSystem == "Darwin":
+    elif nuke.env["MACOS"]:
         path = path.replace("\\", "/")
         subprocess.call(["open", "-R", path])
-    else:
+    elif nuke.env["LINUX"]:
         path = path.replace("\\", "/")
         subprocess.call(["nautilus", "--select", path])
 
@@ -59,9 +57,7 @@ def startfile(file_path):
     """
     Open file or folder with default app.
     """
-    operatingSystem = platform.system()
-
-    if operatingSystem == "Windows":
+    if nuke.env["WIN32"]:
         os.startfile(file_path)
     else:
         os.system("open " + file_path)
