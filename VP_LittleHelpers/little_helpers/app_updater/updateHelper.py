@@ -195,14 +195,20 @@ def open_nuke_in_new_terminal(script_path=None):
             continue
         command += " " + arg
 
-    # set script to open
+    # set scriptn file name to open
     if script_path:
         command += " " + os.path.basename(script_path)
 
     # exit terminal after execute nuke
     command += " && exit"
 
-    run_terminal_command(command, cwd=os.path.dirname(script_path))
+    # get script directory
+    if script_path:
+        cwd = os.path.dirname(script_path)
+    else:
+        cwd = None
+
+    run_terminal_command(command, cwd=cwd)
 
 
 def restart_any_nuke():
