@@ -35,8 +35,8 @@ def get_nuke_executable_path():
     """Return something like: C:/Program Files/Nuke13.2v6/Nuke13.2.exe"""
     nuke_executable_path = nuke.env["ExecutablePath"].replace("\\", "/")
 
-    if os.path.exists(nuke_executable_path):
-        return nuke_executable_path
+    # if os.path.exists(nuke_executable_path):
+    #     return nuke_executable_path
 
     nuke_folder_path = os.path.dirname(nuke.env["NukeLibraryPath"])  # try other way to find nuke path
     nuke_executable_filename = os.path.basename(nuke_executable_path)  # get name of nuke app
