@@ -29,7 +29,7 @@ How to build app to make app_updater work:
 
 
 # DEVELOPER
-use_test_mode = True
+use_test_mode = False
 
 
 # EDIT
