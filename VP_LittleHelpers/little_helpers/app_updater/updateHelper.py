@@ -312,7 +312,7 @@ def start_updating_application_when_initiazile(action):
         if check_new_version_available(current_version, last_version):
 
             action.setText(f"Update VP_LittleHelpers from {current_version} to {last_version}")
-            nuke.message(f"Available update for VP_LittleHelpers from {current_version} to {last_version}! ^_^")
+            # nuke.message(f"Available update for VP_LittleHelpers from {current_version} to {last_version}! ^_^")
 
     if update_config.use_test_mode:
         do()
