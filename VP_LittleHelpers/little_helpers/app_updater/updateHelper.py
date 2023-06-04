@@ -138,8 +138,7 @@ def run_terminal_command(command) -> None:
         subprocess.Popen(applescript_code, shell=True)
 
     else:
-        if nuke.ask("Nuke Run Terminal wasn't tested for Linux. Continue?"):
-            subprocess.Popen(['x-terminal-emulator', '-e', command])
+        subprocess.Popen(['x-terminal-emulator', '-e', command])
 
 
 def open_application_github_in_web():
@@ -194,7 +193,7 @@ def open_nuke_in_new_terminal(script_path=None):
         command += " " + os.path.basename(script_path)
 
     # exit terminal after execute nuke
-    command += " & exit"
+    command += " && exit"
 
     run_terminal_command(command)
 
@@ -319,11 +318,6 @@ def start_updating_application_when_initiazile(action):
 
 
 def start_updating_application_when_trigger():
-    if nuke.env["LINUX"] and not update_config.use_test_mode:
-        if nuke.ask("My Lord, I'm sorry...\n\nAuto-updade for your OS not supported yet :(\n\nUpdate manually?"):
-            open_application_github_in_web()
-        return
-
     # get application version
     current_version = get_application_version()
     if not current_version:
