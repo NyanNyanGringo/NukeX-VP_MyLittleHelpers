@@ -128,17 +128,24 @@ def correct_path_to_console_path(input_path: str) -> str:
     return path_corrected
 
 
-def run_terminal_command(command) -> None:
+def run_terminal_command(command: str, cwd: str = None) -> None:
     if nuke.env["WIN32"]:
-        subprocess.Popen(['start', 'cmd', '/k', command], shell=True)
+        script = ['start', 'cmd', '/k', command]
+        use_shell = True
 
     elif nuke.env["MACOS"]:
-        # applescript_code += f"""&& osascript -e 'tell application "Terminal" to close first window'""" close macOS cmd
-        applescript_code = f'osascript -e \'tell application "Terminal" to do script "{command}"\''
-        subprocess.Popen(applescript_code, shell=True)
+        script = f'osascript -e \'tell application "Terminal" to do script "{command}"\''
+        # command += f"""&& osascript -e 'tell application "Terminal" to close first window'""" close macOS terminal
+        use_shell = True
 
     else:
-        subprocess.Popen(['x-terminal-emulator', '-e', command])
+        script = ['x-terminal-emulator', '-e', command]
+        use_shell = False
+
+    if cwd:
+        subprocess.Popen(script, shell=use_shell, cwd=cwd)
+    else:
+        subprocess.Popen(script, shell=use_shell)
 
 
 def open_application_github_in_web():
@@ -195,7 +202,7 @@ def open_nuke_in_new_terminal(script_path=None):
     # exit terminal after execute nuke
     command += " && exit"
 
-    run_terminal_command(command)
+    run_terminal_command(command, cwd=os.path.dirname(script_path))
 
 
 def restart_any_nuke():
