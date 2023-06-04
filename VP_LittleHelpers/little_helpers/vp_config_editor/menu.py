@@ -2,7 +2,8 @@ import os
 
 from little_helpers.vp_little_helpers import qtHelper, userconfigHelper
 
-import little_helpers.vp_config_editor.config_editor as config_editor
+# import little_helpers.vp_config_editor.config_editor as config_editor
+from little_helpers.app_updater.updateHelper import restart_any_nuke
 
 
 # variables
@@ -28,4 +29,4 @@ menu_open.addSeparator()
 
 
 # add restart nuke command
-menu_open.addCommand("Restart Nuke", config_editor.restart_any_nuke)
+menu_open.addCommand("Restart Nuke", restart_any_nuke)

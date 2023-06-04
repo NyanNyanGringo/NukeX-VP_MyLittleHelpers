@@ -25,13 +25,11 @@ How to build app to make app_updater work:
     c. comments: use # in every line
     d. set as a pre-release - do not use!
 
-
-# TODO: Linux support
 """
 
 
 # DEVELOPER
-use_test_mode = False
+use_test_mode = True
 
 
 # EDIT

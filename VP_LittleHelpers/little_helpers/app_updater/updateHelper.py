@@ -1,3 +1,6 @@
+import nuke
+import os
+import re
 import shutil
 import subprocess
 import webbrowser
@@ -6,10 +9,6 @@ import time
 import zipfile
 
 from PySide2.QtWidgets import QAction
-
-import nuke
-import os
-import re
 
 
 from little_helpers.app_updater import update_config
@@ -32,11 +31,29 @@ def get_plugin_path_name():
     return os.path.basename(get_plugin_path())
 
 
+def get_nuke_executable_path():
+    """Return something like: C:/Program Files/Nuke13.2v6/Nuke13.2.exe"""
+    return nuke.env["ExecutablePath"].replace("\\", "/")
+
+
+def get_nuke_folder_path():
+    """Return something like: C:/Program Files/Nuke13.2v6"""
+    return os.path.dirname(get_nuke_executable_path())
+
+
 def get_nuke_python_path():
+    python_file_name = None
     if nuke.env["WIN32"]:
-        return os.path.join(os.path.dirname(nuke.rawArgs[0]), "python.exe").replace("\\", "/")
+        python_file_name = "python.exe"
     elif nuke.env["MACOS"]:
-        return os.path.join(os.path.dirname(nuke.rawArgs[0]), "python").replace("\\", "/")
+        python_file_name = "python"
+    elif nuke.env["LINUX"]:
+        for file in [f for f in os.listdir(get_nuke_folder_path()) if os.path.isfile(os.path.join(get_nuke_folder_path(), f))]:
+            if re.fullmatch(f"python[0-9]+.[0-9]+", file):
+                python_file_name = file
+                break
+
+    return os.path.join(get_nuke_folder_path(), python_file_name).replace("\\", "/")
 
 
 def get_github_username():
@@ -101,12 +118,10 @@ def correct_path_to_console_path(input_path: str) -> str:
 
 def run_terminal_command(command) -> None:
     if nuke.env["WIN32"]:
-        if " & exit" not in command:
-            command += " & exit"
         subprocess.Popen(['start', 'cmd', '/k', command], shell=True)
 
     elif nuke.env["MACOS"]:
-        # applescript_code += f"""&& osascript -e 'tell application "Terminal" to close first window'""" it is for save
+        # applescript_code += f"""&& osascript -e 'tell application "Terminal" to close first window'""" close macOS cmd
         applescript_code = f'osascript -e \'tell application "Terminal" to do script "{command}"\''
         subprocess.Popen(applescript_code, shell=True)
 
@@ -143,9 +158,6 @@ def open_nuke_in_new_terminal(script_path=None):
     :param script_path: string, path to script for open
     :return: None
     """
-    nuke_path = nuke.rawArgs[0]
-    start_mode = nuke.rawArgs[1]
-
     command = ""
 
     # change disk if Windows
@@ -156,42 +168,39 @@ def open_nuke_in_new_terminal(script_path=None):
     if script_path:
         command += "cd " + correct_path_to_console_path(os.path.dirname(script_path)) + " & "
 
-    # run nuke in sertain mode
-    command += correct_path_to_console_path(nuke_path) + " " + start_mode
+    # set nuke executable path
+    command += correct_path_to_console_path(get_nuke_executable_path())
 
-    # open script
+    # set sys args that nuke has
+    for arg in nuke.rawArgs:
+        if arg == nuke.rawArgs[0]:  # first arg is nuke executable we already have it
+            continue
+        command += " " + arg
+
+    # set script to open
     if script_path:
         command += " " + os.path.basename(script_path)
+
+    # exit terminal after execute nuke
+    command += " & exit"
 
     run_terminal_command(command)
 
 
-def restart_any_nuke(new_version: str, release_update_info: str = ""):
+def restart_any_nuke():
     """
     Restart NukeX or NukeStudio (support script reopening)
     :return: None
     """
     script_path = nuke.Root().name()
-    release_update_info = release_update_info.replace(r"\n", "").replace(r"\r", "")
-    release_update_info = "- ".join(release_update_info.split("#"))
 
-    message = f"""
-My Lord, update finished successfully!
+    if script_path == "Root":
+        open_nuke_in_new_terminal()
+    else:
+        open_nuke_in_new_terminal(script_path=script_path)
+        nuke.scriptSave(script_path)
 
-New in {get_plugin_path_name()}_{new_version}:
-{release_update_info}
-
-Restart Nuke?
-"""
-
-    if nuke.ask(message):
-        if script_path == "Root":
-            open_nuke_in_new_terminal()
-        else:
-            open_nuke_in_new_terminal(script_path=script_path)
-            nuke.scriptSave(script_path)
-
-        nuke.scriptExit()
+    nuke.scriptExit()
 
 
 # REPOSITORY
@@ -253,7 +262,7 @@ def download_repository_by_url(url) -> str:
 
     # download
     # cd to change dir | curl to download
-    download_command = f"cd {correct_path_to_console_path(temppath)} && curl -LJO -k {url}"
+    download_command = f"cd {correct_path_to_console_path(temppath)} && curl -LJO -k {url} && exit"
 
     if update_config.use_test_mode:
         print(f"Try to run command: {download_command}")
@@ -396,7 +405,19 @@ def start_updating_application_when_trigger():
                 finally:
                     pass
 
-            restart_any_nuke(new_version=last_version, release_update_info=release_update_info)
+            # ask to restart Nuke
+            release_update_info = release_update_info.replace(r"\n", "").replace(r"\r", "")
+            release_update_info = "- ".join(release_update_info.split("#"))
+            message = f"""
+My Lord, update finished successfully!
+
+New in {get_plugin_path_name()}_{last_version}:
+{release_update_info}
+
+Restart Nuke?
+            """
+            if nuke.ask(message):
+                restart_any_nuke()
 
     else:
         nuke.message(f"My Lord,\n\nYou have the latest version of {get_application_name()} ^_^")
