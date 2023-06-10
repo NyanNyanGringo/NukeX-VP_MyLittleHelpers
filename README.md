@@ -4,9 +4,9 @@
 [YouTube](https://www.youtube.com/@parfprod1/videos)  
 [LinkedIn](https://www.linkedin.com/in/vladislav-parfentev-7b89b9233/)
 
-## <center>Almost invisible helpers for Compositing artist!</center>
+## <p align="center"><b>Almost invisible helpers for Compositing artist!</b> </p>
 
-<img src="https://parfprod.com/URLS/little_helpers/my_little_helpers_logo_v001.jpeg" width=525 style="display: block; margin: 0 auto" />
+<p align="center"><img src="https://parfprod.com/URLS/little_helpers/my_little_helpers_logo_v001.jpeg" width="525"></p>
 
 # how to use:
 
@@ -42,6 +42,7 @@
 - opens .nuke folder.
 - helps to open any config files or folders from inside Nuke (relatively to .nuke folder).
 - have functionality to restart Nuke (support restarting with open project).
+- you can modify extensions using `./config/USERCONFIG.ini`
 
 # first install:
 
