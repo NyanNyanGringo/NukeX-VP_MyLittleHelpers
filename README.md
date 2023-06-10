@@ -14,7 +14,7 @@
   script.
 
 ![Alt Text](https://parfprod.com/URLS/little_helpers/smart_autosave_v001.gif)
-
+ 
 ### read write coloriser:
 
 - allows coloring Read and Write nodes based on the file extensions.
