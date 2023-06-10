@@ -10,7 +10,6 @@ import zipfile
 
 from PySide2.QtWidgets import QAction
 
-
 from little_helpers.app_updater import update_config
 
 
@@ -317,7 +316,7 @@ def start_updating_application_when_initiazile(action):
 
         if check_new_version_available(current_version, last_version):
 
-            action.setText(f"Update VP_LittleHelpers from {current_version} to {last_version}")
+            action.setText(f"Update {get_plugin_path_name()} from {current_version} to {last_version}")
             # nuke.message(f"Available update for VP_LittleHelpers from {current_version} to {last_version}! ^_^")
 
     if update_config.use_test_mode:
@@ -394,10 +393,15 @@ def start_updating_application_when_trigger():
                     return
 
             # unzip
-            unzip_path = unzip(zip_path, delete_zip=True)
+            try:
+                unzip_path = unzip(zip_path, delete_zip=True)
+            except:
+                ask_error_message("can't unzip last release file from GitHub. Please, try again.")
+                return
 
             # get paths
-            new_program_path = os.path.join(unzip_path, get_plugin_path_name(), get_application_name()).replace("\\", "/")
+            new_program_path = os.path.join(unzip_path, get_plugin_path_name(), get_application_name()).replace("\\",
+                                                                                                                "/")
             old_program_path = get_application_path().replace("\\", "/")
 
             if update_config.use_test_mode:
@@ -439,7 +443,7 @@ Restart Nuke?
                 restart_any_nuke()
 
     else:
-        nuke.message(f"My Lord,\n\nYou have the latest version of {get_application_name()} ^_^")
+        nuke.message(f"My Lord,\n\nYou have the latest version of {get_plugin_path_name()} ^_^")
         return
 
 
@@ -448,7 +452,7 @@ Restart Nuke?
 
 def add_update_action_to_menu(menu):
     # create action
-    action = QAction(f"Check {get_application_name()} updates...")
+    action = QAction(f"Check {get_plugin_path_name()} updates...")
 
     # add action to menu
     menu.addAction(action)

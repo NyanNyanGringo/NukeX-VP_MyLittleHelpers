@@ -1,5 +1,25 @@
-from little_helpers.vp_little_helpers import configHelper, userconfigHelper
 import nuke
+
+# from PySide2.QtWidgets import *
+# from PySide2.QtGui import *
+# from PySide2.QtCore import *
+
+from little_helpers.vp_little_helpers import configHelper, userconfigHelper
+
+
+# class CustomQMenu(QMenu):
+#     def __init__(self, *args, **kwargs):
+#         super().__init__(*args, **kwargs)
+#
+#     def mouseReleaseEvent(self, event):
+#         action = self.activeAction()
+#         if action and action.isEnabled():
+#             if not action.menu():
+#                 action.trigger()
+#             else:
+#                 action.menu().exec_(self.mapToGlobal(event.pos()))
+#         else:
+#             super().mouseReleaseEvent(event)
 
 
 def check_action_is_checked(config_key):
