@@ -1,4 +1,4 @@
-# LITTLE HELPERS FOR NUKEX:
+# My Little Helpers for NukeX
 
 [Nukepedia](http://www.nukepedia.com/)  
 [YouTube](https://www.youtube.com/@parfprod1/videos)  
