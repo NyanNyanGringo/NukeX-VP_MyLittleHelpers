@@ -11,16 +11,21 @@
 ### smart autosave:
 
 - adds a TCL command to Preferences -> Autosave that creates autosaves of the project script in a folder next to the
-  script.  
+  script.
+
 ![Alt Text](https://parfprod.com/URLS/little_helpers/smart_autosave_v001.gif)
 
 ### read write coloriser:
+
 - allows coloring Read and Write nodes based on the file extensions.
+
 ![Alt Text](https://parfprod.com/URLS/little_helpers/read_write_colorizer_v001.gif)
 
 ### compare versions before render:
+
 - checking the match between the Write node version and the project version before rendering.
-  ![Alt Text](https://parfprod.com/URLS/little_helpers/check_ver_before_render_v001.gif)
+
+![Alt Text](https://parfprod.com/URLS/little_helpers/check_ver_before_render_v001.gif)
 
 ### delete temp files after render:
 
