@@ -16,7 +16,7 @@
 
 ### read write coloriser:
 - allows coloring Read and Write nodes based on the file extensions.
-  ![Alt Text](https://parfprod.com/URLS/little_helpers/read_write_colorizer_v001.gif)
+![Alt Text](https://parfprod.com/URLS/little_helpers/read_write_colorizer_v001.gif)
 
 ### compare versions before render:
 - checking the match between the Write node version and the project version before rendering.
