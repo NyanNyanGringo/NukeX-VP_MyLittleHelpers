@@ -12,9 +12,7 @@
 
 - adds a TCL command to Preferences -> Autosave that creates autosaves of the project script in a folder next to the
   script.
-
-<img src='https://parfprod.com/URLS/little_helpers/smart_autosave_v002.gif' alt='gif' />
-
+  
 ### read write coloriser:
 
 - allows coloring Read and Write nodes based on the file extensions.
