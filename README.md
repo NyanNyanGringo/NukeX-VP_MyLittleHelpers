@@ -13,39 +13,32 @@
 - adds a TCL command to Preferences -> Autosave that creates autosaves of the project script in a folder next to the
   script.
 
-![Alt Text](https://parfprod.com/URLS/VP_LittleHelpers/smart_autosave_v002.gif)
+![Alt Text](https://parfprod.com/URLS/little_helpers/smart_autosave_v003.gif)
 
 ### read write coloriser:
 
 - allows coloring Read and Write nodes based on the file extensions.
 
-![Alt Text](https://parfprod.com/URLS/VP_LittleHelpers/read_write_colorizer_v002.gif)
-
 ### compare versions before render:
 
 - checking the match between the Write node version and the project version before rendering.
-  ![Alt Text](https://parfprod.com/URLS/VP_LittleHelpers/check_ver_before_render_v002.gif)
 
 ### delete temp files after render:
 
 - checks if there are any .tmp files in the sequence folder and deletes them after rendering.
-  ![Alt Text](https://parfprod.com/URLS/VP_LittleHelpers/delete_temp_files_v002.gif)
 
 ### disconnect viewers inputs after script load:
 
 - disconnects all Inputs for all Viewers after script loading.
-  ![Alt Text](https://parfprod.com/URLS/VP_LittleHelpers/disconnect_viewer_inputs_v002.gif)
 
 ### default viewer state is input:
 
 - change default Viewer state from Global to Input.
-  ![Alt Text](https://parfprod.com/URLS/VP_LittleHelpers/default_is_input_v002.png)
 
 ### config editor:
 
 - helps to open any config files or folders from inside Nuke (relatively to .nuke folder).
 - have functionality to restart Nuke.
-  ![Alt Text](https://parfprod.com/URLS/VP_LittleHelpers/config_helper_v002.gif)
 
 # how to install
 
