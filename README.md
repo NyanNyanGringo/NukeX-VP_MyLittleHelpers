@@ -4,9 +4,9 @@
 [YouTube](https://www.youtube.com/@parfprod1/videos)  
 [LinkedIn](https://www.linkedin.com/in/vladislav-parfentev-7b89b9233/)
 
-## Almost invisible helpers for Compositing artist!
+## <center>Almost invisible helpers for Compositing artist!</center>
 
-<img src="https://parfprod.com/URLS/little_helpers/my_little_helpers_logo_v001.jpeg" width=525>
+<img src="https://parfprod.com/URLS/little_helpers/my_little_helpers_logo_v001.jpeg" width=525 style="display: block; margin: 0 auto" />
 
 # how to use:
 
