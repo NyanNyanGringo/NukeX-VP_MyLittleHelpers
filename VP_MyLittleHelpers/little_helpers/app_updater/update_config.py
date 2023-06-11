@@ -34,4 +34,4 @@ use_test_mode = False
 
 # EDIT
 github_username = "NyanNyanGringo"
-github_repository = "NukeX-VP_LittleHelpers"
+github_repository = "NukeX-VP_MyLittleHelpers"

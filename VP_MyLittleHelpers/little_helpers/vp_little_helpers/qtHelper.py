@@ -35,7 +35,7 @@ def check_action_is_checked(config_key):
 
 def create_and_get_helper_menu():
     """
-    Create and Get menu for VP_LittleHelpers. If exists - return existed
+    Create and Get menu for VP_MyLittleHelpers. If exists - return existed
     menu. Get menu name using ini_config
     :return: Nuke Menu
     """
