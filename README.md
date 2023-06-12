@@ -41,7 +41,7 @@
 - opens .nuke folder.
 - helps to open any config files or folders from inside Nuke (relatively to .nuke folder).
 - have functionality to restart Nuke (support restarting with open project).
-- you can modify extensions using `./config/USERCONFIG.ini`
+- you can modify config files or folders using `./config/USERCONFIG.ini`
 
 # first install:
 
