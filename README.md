@@ -1,5 +1,5 @@
 # My Little Helpers for NukeX
-[Nukepedia](http://www.nukepedia.com/)  
+[Nukepedia](http://www.nukepedia.com/python/nodegraph/vp-my-little-helpers)  
 [YouTube](https://www.youtube.com/@parfprod1/videos)  
 [LinkedIn](https://www.linkedin.com/in/vladislav-parfentev-7b89b9233/)
 
