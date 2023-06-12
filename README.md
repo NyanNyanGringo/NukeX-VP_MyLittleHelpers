@@ -22,6 +22,7 @@
 
 - allows coloring Read and Write nodes based on the file extensions.
 - you can modify extensions using `./config/USERCONFIG.ini`
+- developed with Igor Baydak.
 
 ### [compare versions before render](https://parfprod.com/URLS/little_helpers/check_ver_before_render_v001.gif)
 
