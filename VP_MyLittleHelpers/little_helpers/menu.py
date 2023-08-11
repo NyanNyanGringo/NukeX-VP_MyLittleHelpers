@@ -22,6 +22,7 @@ import little_helpers.vp_delete_temp_files_after_render.menu
 import little_helpers.vp_disconnect_viewers_inputs_after_script_load.menu
 import little_helpers.vp_default_viewer_state_is_input.menu
 import little_helpers.vp_config_editor.menu
+import little_helpers.vp_set_roto_frame_range.menu
 
 # set up update
 from little_helpers.app_updater import updateHelper

@@ -211,7 +211,6 @@ def check_CONFIG_EDITOR_elements_values() -> tuple:
             return False, element, path_value
     return True, None, None
 
-
 def check_userconfig_before_start_nuke() -> None:
     # Проверка существует ли конфиг
     if not check_userconfig_exists():

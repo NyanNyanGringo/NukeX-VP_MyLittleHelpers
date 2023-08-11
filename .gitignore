@@ -2,6 +2,7 @@ config.json
 USERCONFIG_PARFENTEV.ini
 .idea
 README.html
-test
+test.py
 /AE/
 /logo/
+/VP_MyLittleHelpers/config/
