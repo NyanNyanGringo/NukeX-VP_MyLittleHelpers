@@ -36,5 +36,5 @@ def set_all_read_and_write_tile_color():
 
 
 def colorise_on_node_create():
-    if nuke.thisKnob().name() == "file":
+    if nuke.thisKnob().name() == "file" and nuke.thisNode().Class() in ["Read", "Write"]:
         set_tile_color_to_node(nuke.thisNode())
