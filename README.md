@@ -47,7 +47,6 @@
 
 1) Move "VP_MyLittleHelpers" folder to "/.nuke/VP_MyLittleHelpers"
 2) To file "/.nuke/init.py" add next code:
-
 > import nuke  
 > nuke.pluginAddPath("./VP_MyLittleHelpers")
 
@@ -59,6 +58,10 @@
 # settings:
 
 - Edit `./config/USERCONFIG.ini` file to change VP_MyLittleHelpers settings
+- To set up custom config path: use environment variable LITTLE_HELPERS_CONFIG_PATH:
+
+> import os  
+> os.environ["LITTLE_HELPERS_CONFIG_PATH"] = "/your/custom/path"
 
 # p.s.
 

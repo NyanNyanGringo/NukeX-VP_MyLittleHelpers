@@ -8,10 +8,16 @@ the operations will be performed on the default configuration file.
 import json
 import os
 
+MY_LITTLE_HELPERS_CONFIG_PATH = os.getenv("LITTLE_HELPERS_CONFIG_PATH")
+
 
 def get_config_folder():
-    p = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-    return os.path.join(p, "config").replace("\\", "/")
+    if MY_LITTLE_HELPERS_CONFIG_PATH:
+        path = MY_LITTLE_HELPERS_CONFIG_PATH
+    else:
+        path = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        path = os.path.join(path, "config").replace("\\", "/")
+    return path
 
 
 def get_temp_config_path():

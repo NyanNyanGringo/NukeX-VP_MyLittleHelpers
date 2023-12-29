@@ -12,6 +12,8 @@ from PySide2.QtWidgets import QAction
 
 from little_helpers.app_updater import update_config
 
+DEV_MODE = os.getenv("DEV")
+
 
 # GET PATHS and NAMES
 def get_application_path():
@@ -254,7 +256,7 @@ zipball_url = data["{data}"]
 print(zipball_url)
     '''
 
-    if update_config.use_test_mode:
+    if DEV_MODE:
         print(f"url: {url}")
         print(f"python_path: {python_path}")
         print(f"python_code: {python_code}")
@@ -287,7 +289,7 @@ def download_repository_by_url(url) -> str:
     # cd to change dir | curl to download
     download_command = f"cd {correct_path_to_console_path(temppath)} && curl -LJO -k {url} && exit"
 
-    if update_config.use_test_mode:
+    if DEV_MODE:
         print(f"Try to run command: {download_command}")
 
     run_terminal_command(download_command)
@@ -311,7 +313,7 @@ def start_updating_application_when_initiazile(action):
         current_version = get_application_version()
         last_version = get_data_from_last_repository_release("tag_name")
 
-        if update_config.use_test_mode:
+        if DEV_MODE:
             current_version = "v0.0.0"
 
         if check_new_version_available(current_version, last_version):
@@ -319,7 +321,7 @@ def start_updating_application_when_initiazile(action):
             action.setText(f"Update {get_plugin_path_name()} from {current_version} to {last_version}")
             # nuke.message(f"Available update for VP_MyLittleHelpers from {current_version} to {last_version}! ^_^")
 
-    if update_config.use_test_mode:
+    if DEV_MODE:
         do()
         return
 
@@ -336,13 +338,13 @@ def start_updating_application_when_trigger():
         nuke.message(f"I can't find version file in {get_application_path()}!")
         return
 
-    if update_config.use_test_mode:
+    if DEV_MODE:
         current_version = "v0.0.0"
         print(f"current_version: {current_version}")
 
     # get last release version
     last_version = str()
-    if update_config.use_test_mode:
+    if DEV_MODE:
         last_version = get_data_from_last_repository_release("tag_name")
         print(f"last_version: {last_version}")
     else:
@@ -354,7 +356,7 @@ def start_updating_application_when_trigger():
 
     # get last release download URL
     download_url = str()
-    if update_config.use_test_mode:
+    if DEV_MODE:
         download_url = get_data_from_last_repository_release("zipball_url")
         print(f"download_url: {download_url}")
     else:
@@ -365,7 +367,7 @@ def start_updating_application_when_trigger():
             return
     # body
     release_update_info = str()
-    if update_config.use_test_mode:
+    if DEV_MODE:
         release_update_info = get_data_from_last_repository_release("body")
         print(f"release_update_info: {release_update_info}")
     else:
@@ -382,7 +384,7 @@ def start_updating_application_when_trigger():
 
             # download and get zip of last release
             zip_path = str()
-            if update_config.use_test_mode:
+            if DEV_MODE:
                 zip_path = download_repository_by_url(download_url)
                 print(f"zip_path: {zip_path}")
             else:
@@ -404,13 +406,13 @@ def start_updating_application_when_trigger():
                                                                                                                 "/")
             old_program_path = get_application_path().replace("\\", "/")
 
-            if update_config.use_test_mode:
+            if DEV_MODE:
                 old_program_path += " (TEST MODE)"
                 print(f"unzip_path: {unzip_path}")
                 print(f"new_program_path: {new_program_path}")
                 print(f"old_program_path: {old_program_path}")
 
-            if update_config.use_test_mode:
+            if DEV_MODE:
                 if os.path.exists(old_program_path):
                     shutil.rmtree(old_program_path)
                 shutil.move(new_program_path, old_program_path)
