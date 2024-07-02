@@ -43,10 +43,20 @@
 - have functionality to restart Nuke (support restarting with open project).
 - you can modify config files or folders using `./config/USERCONFIG.ini`
 
+### viewer beside (update from 2024-07-02)
+
+- place viewer beside selected and views node
+- you can modify Viewer position using `./config/USERCONFIG.ini`
+
+### linear animation (update from 2024-07-02)
+
+- as default for Kronos and TimeWarp nodes
+
 # first install:
 
 1) Move "VP_MyLittleHelpers" folder to "/.nuke/VP_MyLittleHelpers"
 2) To file "/.nuke/init.py" add next code:
+
 > import nuke  
 > nuke.pluginAddPath("./VP_MyLittleHelpers")
 

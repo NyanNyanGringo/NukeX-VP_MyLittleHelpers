@@ -4,7 +4,7 @@ How to add sections and elements:
 2. check_userconfig_before_start_nuke() -> написать проверки перед запуском
 """
 import configparser
-import os
+import os, re
 
 import nuke
 
@@ -56,6 +56,10 @@ def check_color_string_validity(input_string):
     return True
 
 
+def check_viewer_offset_validity(offset):
+    return bool(re.fullmatch(r'[-+]?\d+', offset))  # at least one digit and +- sign at begining allowed
+
+
 def check_path_validity(path):
     if path.startswith("./"):
         return True
@@ -86,6 +90,10 @@ def get_userconfig_structure() -> dict:
             "png": ["0.56 | 0.28 | 0.29", False, ""],
             "dpx": ["0.56 | 0.56 | 0.28", False, ""],
             "psd": ["0.51 | 0.64 | 1.00", False, "you can add your own extensions!"]
+        },
+        "VIEWER OFFSET": {
+            "x_offset": ["-100", False, ""],
+            "y_offset": ["100", False, ""]
         },
         "CONFIG EDITOR": {
             "Init.py": ["./init.py", False, ""],
@@ -202,6 +210,17 @@ def check_READ_WRITE_COLORS_elements_values() -> tuple:
     return True, None, None
 
 
+def check_VIEWER_OFFSET_elements_values() -> tuple:
+    userconfig = parse_userconfig()
+    section_name = "VIEWER OFFSET"
+
+    for element in list(userconfig[section_name]):
+        offset_value = userconfig[section_name][element]
+        if not check_viewer_offset_validity(offset_value):
+            return False, element, offset_value
+    return True, None, None
+
+
 def check_CONFIG_EDITOR_elements_values() -> tuple:
     userconfig = parse_userconfig()
     section_name = "CONFIG EDITOR"
@@ -237,6 +256,13 @@ def check_userconfig_before_start_nuke() -> None:
         if not check:
             raise_error(message=f"In section 'READ WRITE COLORS' element '{element}' - syntax error!",
                         error_line=[find_element_line(element, rgb_value), rgb_value])
+
+    # Проверка значений в VIEWER OFFSET
+    if check_section_exists("VIEWER OFFSET"):
+        check, element, offset_value = check_VIEWER_OFFSET_elements_values()
+        if not check:
+            raise_error(message=f"In section 'VIEWER OFFSET' element '{element}' - syntax error!",
+                        error_line=[find_element_line(element, offset_value), offset_value])
 
     # Проверка значений в CONFIG EDITOR
     if check_section_exists("CONFIG EDITOR"):
