@@ -43,14 +43,20 @@
 - have functionality to restart Nuke (support restarting with open project).
 - you can modify config files or folders using `./config/USERCONFIG.ini`
 
-### viewer beside (update from 2024-07-02)
+### viewer beside (update from 2 July 2024)
 
 - place viewer beside selected and views node
 - you can modify Viewer position using `./config/USERCONFIG.ini`
 
-### linear animation (update from 2024-07-02)
+### linear animation (update from 2 July 2024)
 
 - as default for Kronos and TimeWarp nodes
+
+### show shortcuts in Tab menu (update from 3 September 2024)
+
+### version up remidner (update from 3 September 2024)
+
+- every time script loads - reminds to do version up
 
 # first install:
 
