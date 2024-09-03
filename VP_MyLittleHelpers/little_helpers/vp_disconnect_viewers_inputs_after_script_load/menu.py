@@ -1,21 +1,15 @@
-import nuke
-
 from PySide2.QtWidgets import QAction
+
+from little_helpers.vp_little_helpers import qtHelper, configHelper
 
 from little_helpers.vp_disconnect_viewers_inputs_after_script_load import disconnect_viewers_inputs_after_script_load
 
-from little_helpers.vp_little_helpers import qtHelper
-from little_helpers.vp_little_helpers import configHelper
+CONFIG_KEY = "use_disconnect_viewer_inputs"
+STUDIO_CONFIG_KEY = "LITTLE_HELPERS_DISCONNECT_VIEWERS_INPUTS_WHEN_SCRIPT_LOAD"
 
 
-# work with config
 def write_config_settings(action):
-    configHelper.write_config("use_disconnect_viewer_inputs", action.isChecked())
-
-
-def load_config_settings(action):
-    if configHelper.check_key("use_disconnect_viewer_inputs"):
-        action.setChecked(configHelper.read_config_key("use_disconnect_viewer_inputs"))
+    configHelper.write_config(CONFIG_KEY, action.isChecked())
 
 
 # create action
@@ -25,13 +19,10 @@ action.setCheckable(True)
 # add action to menu
 qtHelper.create_and_get_helper_menu().addMenu("Viewer").addAction(action)
 
-# set triggers for action: save config + start read_write_coloriser
+# initialize when Nuke starts up
+configHelper.load_config_settings(action=action, config_key=CONFIG_KEY, studio_config_key=STUDIO_CONFIG_KEY)
+disconnect_viewers_inputs_after_script_load.start(action)
+
+# set triggers for action
 action.triggered.connect(lambda: write_config_settings(action))
-action.triggered.connect(lambda: disconnect_viewers_inputs_after_script_load.start())
-
-# when initialize Nuke
-load_config_settings(action)
-disconnect_viewers_inputs_after_script_load.start()
-
-# add callbacks
-nuke.addOnScriptLoad(disconnect_viewers_inputs_after_script_load.start)
+action.triggered.connect(lambda: disconnect_viewers_inputs_after_script_load.start(action))

@@ -2,7 +2,6 @@ import os
 
 from little_helpers.vp_little_helpers import qtHelper, userconfigHelper
 
-# import little_helpers.vp_config_editor.config_editor as config_editor
 from little_helpers.app_updater.updateHelper import restart_any_nuke
 
 
@@ -24,9 +23,12 @@ menu_open.addSeparator()
 for action_name in list(userconfig["CONFIG EDITOR"]):
     relative_path_to_file = userconfig["CONFIG EDITOR"][action_name]
     full_path_to_file = (nuke_plugin_path + relative_path_to_file[1:]).replace("\\", "/")
-    menu_open.addCommand(action_name, 'little_helpers.vp_little_helpers.osHelpers.startfile("'+full_path_to_file+'")')
+    menu_open.addCommand(action_name,
+                         'little_helpers.vp_little_helpers.osHelpers.startfile("' + full_path_to_file + '")')
 menu_open.addSeparator()
-
 
 # add restart nuke command
 menu_open.addCommand("Restart Nuke", restart_any_nuke)
+
+if os.getenv("LITTLE_HELPERS_CONFIG_EDITOR") == "always_disabled":
+    menu_open.setEnabled(False)

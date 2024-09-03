@@ -2,8 +2,6 @@ import nuke
 
 from PySide2.QtWidgets import QApplication
 
-from little_helpers.vp_little_helpers import qtHelper
-
 
 def find_viewer(viewer):
     nuke.show(viewer, False)
@@ -57,10 +55,13 @@ def change_viewer_to_input_when_widget_opens():
         change_viewer_to_input_or_global(nuke.thisNode(), state="Input")
 
 
-def start():
-    if qtHelper.check_action_is_checked(config_key="use_default_viewer_state_as_input"):
+KNOB_CHANGED_CALLBACK = change_viewer_to_input_when_widget_opens
+
+
+def start(action):
+    if action.isChecked():
         change_viewerS_to_input()
-        nuke.addKnobChanged(change_viewer_to_input_when_widget_opens, nodeClass="Viewer")
+        nuke.addKnobChanged(KNOB_CHANGED_CALLBACK, nodeClass="Viewer")
     else:
         change_viewerS_to_global()
-        nuke.removeKnobChanged(change_viewer_to_input_when_widget_opens, nodeClass="Viewer")
+        nuke.removeKnobChanged(KNOB_CHANGED_CALLBACK, nodeClass="Viewer")

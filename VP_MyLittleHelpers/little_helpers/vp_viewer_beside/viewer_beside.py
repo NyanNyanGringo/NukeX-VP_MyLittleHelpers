@@ -1,6 +1,6 @@
 import nuke
 
-from little_helpers.vp_little_helpers import qtHelper, userconfigHelper
+from little_helpers.vp_little_helpers import userconfigHelper
 
 
 def viewer_beside():
@@ -29,8 +29,11 @@ def viewer_beside():
                 viewer.setXYpos(x + int(x_offset), y + int(y_offset))
 
 
-def start():
-    if qtHelper.check_action_is_checked(config_key="use_viewer_beside"):
-        nuke.addKnobChanged(viewer_beside, nodeClass='Viewer')
+KNOB_CHANGED_CALLBACK = viewer_beside
+
+
+def start(action):
+    if action.isChecked():
+        nuke.addKnobChanged(KNOB_CHANGED_CALLBACK, nodeClass='Viewer')
     else:
-        nuke.removeKnobChanged(viewer_beside, nodeClass='Viewer')
+        nuke.removeKnobChanged(KNOB_CHANGED_CALLBACK, nodeClass='Viewer')

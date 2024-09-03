@@ -1,7 +1,7 @@
-import nuke
 import os
 
-from little_helpers.vp_little_helpers import qtHelper
+import nuke
+
 from little_helpers.vp_little_helpers import osHelpers
 
 
@@ -27,8 +27,11 @@ def delete_temp_files_after_render():
             nuke.message("\n".join(temp_files) + "\n\nWas deleted, My Lord ^_^")
 
 
-def start():
-    if qtHelper.check_action_is_checked(config_key="use_delete_temp_files_after_render"):
-        nuke.addAfterRender(delete_temp_files_after_render, nodeClass='Write')
+AFTER_RENDER_CALLBACK = delete_temp_files_after_render
+
+
+def start(action):
+    if action.isChecked():
+        nuke.addAfterRender(AFTER_RENDER_CALLBACK, nodeClass='Write')
     else:
-        nuke.removeAfterRender(delete_temp_files_after_render, nodeClass='Write')
+        nuke.removeAfterRender(AFTER_RENDER_CALLBACK, nodeClass='Write')

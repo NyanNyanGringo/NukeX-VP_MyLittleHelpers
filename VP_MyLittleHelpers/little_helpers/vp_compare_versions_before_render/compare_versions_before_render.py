@@ -1,8 +1,6 @@
 import nuke
 import re
 
-from little_helpers.vp_little_helpers import qtHelper
-
 
 def check_knob_file_version_matches_script_version():
     write = nuke.thisNode()
@@ -25,11 +23,14 @@ def check_knob_file_version_matches_script_version():
         if script_version and file_version:
             if not get_int_from_ver(script_version) == get_int_from_ver(file_version):
                 if not nuke.ask("Version of project and version of write node doens't mathces! Continue?"):
-                    raise
+                    raise RuntimeError("Version of project and version of write node do not match.")
 
 
-def start():
-    if qtHelper.check_action_is_checked(config_key="use_compare_versions_before_render"):
-        nuke.addBeforeRender(check_knob_file_version_matches_script_version, nodeClass='Write')
+BEFORE_RENDER_CALLBACK = check_knob_file_version_matches_script_version
+
+
+def start(action):
+    if action.isChecked():
+        nuke.addBeforeRender(BEFORE_RENDER_CALLBACK, nodeClass='Write')
     else:
-        nuke.removeBeforeRender(check_knob_file_version_matches_script_version, nodeClass='Write')
+        nuke.removeBeforeRender(BEFORE_RENDER_CALLBACK, nodeClass='Write')

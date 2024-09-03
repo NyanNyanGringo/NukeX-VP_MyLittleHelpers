@@ -1,7 +1,5 @@
 import nuke
 
-from little_helpers.vp_little_helpers import qtHelper
-
 
 def disconnect_viewer_inputs():
     for node in nuke.allNodes():
@@ -10,8 +8,11 @@ def disconnect_viewer_inputs():
                 node.setInput(_input, None)
 
 
-def start():
-    if qtHelper.check_action_is_checked(config_key="use_disconnect_viewer_inputs"):
-        nuke.addOnScriptLoad(disconnect_viewer_inputs)
+ON_SCRIPT_LOAD = disconnect_viewer_inputs
+
+
+def start(action):
+    if action.isChecked():
+        nuke.addOnScriptLoad(ON_SCRIPT_LOAD)
     else:
-        nuke.removeOnScriptLoad(disconnect_viewer_inputs)
+        nuke.removeOnScriptLoad(ON_SCRIPT_LOAD)

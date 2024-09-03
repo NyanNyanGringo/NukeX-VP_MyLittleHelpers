@@ -1,9 +1,7 @@
-from PySide2 import QtWidgets, QtCore, QtGui
+from PySide2 import QtWidgets, QtCore
 import nuke
 import nukescripts
 import random
-
-from little_helpers.vp_little_helpers import qtHelper
 
 
 class TransparentWidget(QtWidgets.QWidget):
@@ -152,8 +150,8 @@ def show_transparent_widget(position='top-left'):
 ON_SCRIPT_LOAD_CALLBACK = lambda: nuke.executeInMainThread(show_transparent_widget)
 
 
-def start():
-    if qtHelper.check_action_is_checked(config_key="version_up_reminder"):
+def start(action):
+    if action.isChecked():
         nuke.addOnScriptLoad(ON_SCRIPT_LOAD_CALLBACK)
     else:
         nuke.removeOnScriptLoad(ON_SCRIPT_LOAD_CALLBACK)

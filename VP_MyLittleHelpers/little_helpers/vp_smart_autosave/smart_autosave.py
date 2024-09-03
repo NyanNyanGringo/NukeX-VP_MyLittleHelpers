@@ -1,4 +1,5 @@
 import nuke
+import os
 
 from little_helpers.vp_little_helpers import qtHelper, nukeHelpers
 
@@ -32,8 +33,8 @@ def deactivate_smart_autosave():
     nukeHelpers.save_preferences_to_file()
 
 
-def start():
-    if qtHelper.check_action_is_checked(config_key="use_smart_autosave"):
+def start(action):
+    if action.isChecked():
         activate_smart_autosave()
     else:
         deactivate_smart_autosave()

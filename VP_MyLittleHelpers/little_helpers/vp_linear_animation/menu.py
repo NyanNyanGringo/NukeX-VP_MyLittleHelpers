@@ -1,19 +1,15 @@
 from PySide2.QtWidgets import QAction
 
+from little_helpers.vp_little_helpers import qtHelper, configHelper
+
 from little_helpers.vp_linear_animation import linear_animation
 
-from little_helpers.vp_little_helpers import qtHelper
-from little_helpers.vp_little_helpers import configHelper
+CONFIG_KEY = "use_linear_animation"
+STUDIO_CONFIG_KEY = "LITTLE_HELPERS_LINEAR_ANIMATION"
 
 
-# work with config
 def write_config_settings(action):
-    configHelper.write_config("use_linear_animation", action.isChecked())
-
-
-def load_config_settings(action):
-    if configHelper.check_key("use_linear_animation"):
-        action.setChecked(configHelper.read_config_key("use_linear_animation"))
+    configHelper.write_config(CONFIG_KEY, action.isChecked())
 
 
 # create action
@@ -23,10 +19,10 @@ action.setCheckable(True)
 # add action to menu
 qtHelper.create_and_get_helper_menu().addAction(action)
 
-# set triggers for action: save config + start read_write_coloriser
-action.triggered.connect(lambda: write_config_settings(action))
-action.triggered.connect(lambda: linear_animation.start())
+# initialize when Nuke starts up
+configHelper.load_config_settings(action=action, config_key=CONFIG_KEY, studio_config_key=STUDIO_CONFIG_KEY)
+linear_animation.start(action)
 
-# when initialize Nuke
-load_config_settings(action)
-linear_animation.start()
+# set triggers for action
+action.triggered.connect(lambda: write_config_settings(action))
+action.triggered.connect(lambda: linear_animation.start(action))

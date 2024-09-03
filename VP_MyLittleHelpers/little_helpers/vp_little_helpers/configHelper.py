@@ -8,6 +8,7 @@ the operations will be performed on the default configuration file.
 import json
 import os
 
+
 MY_LITTLE_HELPERS_CONFIG_PATH = os.getenv("LITTLE_HELPERS_CONFIG_PATH")
 
 
@@ -163,3 +164,23 @@ def delete_key(key, conf_file_path=get_temp_config_path()):
         f.close()
         return True
     return False
+
+
+def load_config_settings(action, config_key: str, studio_config_key: str):
+    # user logic
+    if check_key(config_key):
+        action.setChecked(read_config_key(config_key))
+
+    # studio logic
+    studio_config_value = os.getenv(studio_config_key)
+
+    if not studio_config_value:
+        return
+
+    if studio_config_value in ["enable_at_startup", "always_enabled"]:
+        action.setChecked(True)
+    elif studio_config_value in ["disable_at_startup", "always_disabled"]:
+        action.setChecked(False)
+
+    if studio_config_value in ["always_enabled", "always_disabled"]:
+        action.setEnabled(False)

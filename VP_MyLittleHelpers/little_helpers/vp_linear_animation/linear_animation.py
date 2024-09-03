@@ -1,6 +1,7 @@
+import re
+import os
+
 import nuke
-import re, os
-from little_helpers.vp_little_helpers import qtHelper
 
 
 # returns default script for TimeWarp from toolbars.py
@@ -23,8 +24,15 @@ def create_time_warp():
     if float(e) <= float(a):
         a = nuke.value("root.first_frame")
         e = nuke.value("root.last_frame")
-    cmd = "{curve L x" + a + " " + a + " x" + e + " " + e + "}"
+    cmd = "{curve L x" + a + " " + a + " x" + e + " " + e + "}"  # {curve L x1 1 x100 100}
     t.knob("lookup").fromScript(cmd)
+
+
+def setup_time_warp_to_linear():
+    timewarp = nuke.thisNode()
+    if timewarp["lookup"].isAnimated():
+        script = timewarp["lookup"].toScript().replace("curve", "curve L")
+        timewarp["lookup"].fromScript(script)
 
 
 def kronos_linear_animation():
@@ -36,13 +44,24 @@ def kronos_linear_animation():
             kn.fromScript(animation.replace('curve ', 'curve L '))
 
 
-def start():
-    if qtHelper.check_action_is_checked(config_key="use_linear_animation"):
+TIMEWARP_KNOB_CHANGED_CALLBACK = setup_time_warp_to_linear
+KRONOS_KNOB_CHANGED_CALLBACK = kronos_linear_animation
+
+
+def start(action):
+    if action.isChecked():
         spl = os.path.splitext(__file__)[0].replace('\\', '/').split('/')
         create_time_warp_function = '.'.join(
             spl[-3:] + ['create_time_warp()'])  # little_helpers.vp_linear_animation.linear_animation.create_time_warp()
         nuke.menu('Nodes').menu('Time').findItem('TimeWarp').setScript(create_time_warp_function)
-        nuke.addKnobChanged(kronos_linear_animation, nodeClass='Kronos')
+
+        nuke.addKnobChanged(TIMEWARP_KNOB_CHANGED_CALLBACK, nodeClass='TimeWarp')  # for VP Lord of Nodes support
+
+        nuke.addKnobChanged(KRONOS_KNOB_CHANGED_CALLBACK, nodeClass='Kronos')
+
     else:
         nuke.menu('Nodes').menu('Time').findItem('TimeWarp').setScript(getDefaultTimeWarpScript())
-        nuke.removeKnobChanged(kronos_linear_animation, nodeClass='Kronos')
+
+        nuke.removeKnobChanged(TIMEWARP_KNOB_CHANGED_CALLBACK, nodeClass='TimeWarp')  # for VP Lord of Nodes support
+
+        nuke.removeKnobChanged(KRONOS_KNOB_CHANGED_CALLBACK, nodeClass='Kronos')
