@@ -30,8 +30,12 @@ import little_helpers.vp_set_roto_frame_range.menu
 
 # set up update
 from little_helpers.app_updater import updateHelper
+
 action = updateHelper.add_update_action_to_menu(qtHelper.create_and_get_helper_menu())
 updateHelper.start_updating_application_when_initiazile(action)
+
+if os.getenv("LITTLE_HELPERS_UPDATES_CHECK") == "always_disabled":
+    action.setEnabled(False)
 
 # add ---
 qtHelper.create_and_get_helper_menu().addSeparator()
