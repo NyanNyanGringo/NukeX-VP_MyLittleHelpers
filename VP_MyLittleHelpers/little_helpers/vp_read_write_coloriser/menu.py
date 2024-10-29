@@ -1,3 +1,5 @@
+import nuke
+
 from PySide2.QtWidgets import QAction
 
 from little_helpers.vp_little_helpers import qtHelper, configHelper
@@ -26,3 +28,6 @@ read_write_coloriser.start(action)
 # set triggers for action
 action.triggered.connect(lambda: write_config_settings(action))
 action.triggered.connect(lambda: read_write_coloriser.start(action))
+
+# when script loads
+nuke.addOnScriptLoad(lambda: read_write_coloriser.start(action))
