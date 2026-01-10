@@ -5,7 +5,7 @@
 
 ## <p align="center"><b>Almost invisible helpers for Compositing artist!</b> </p>
 
-<p align="center"><img src="https://parfprod.com/URLS/little_helpers/my_little_helpers_logo_v001.jpeg" width="525"></p>
+<p align="center"><img src="https://www.nukepedia.com/assets/img/users/NyanNyanGringo/6c/0c/b4/nh/my_little_helpers_logo_v001.jpeg" width="525"></p>
 
 # instruments:
 
